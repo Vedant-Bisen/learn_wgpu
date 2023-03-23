@@ -1,3 +1,4 @@
+use rand::prelude::*;
 #[cfg(target_arch = "wasm32")]
 use wasm_bindgen::prelude::*;
 
@@ -10,7 +11,10 @@ use winit::{
 pub async fn run() {
     env_logger::init();
     let event_loop = EventLoop::new();
-    let window = WindowBuilder::new().with_title("Learn WGPU").build(&event_loop).unwrap();
+    let window = WindowBuilder::new()
+        .with_title("Learn WGPU")
+        .build(&event_loop)
+        .unwrap();
 
     #[allow(unused_mut)]
     let mut state = State::new(window).await;
@@ -124,6 +128,7 @@ impl State {
             )
             .await
             .unwrap();
+        dbg!(adapter.get_info()); //Prints the info of the adapter 
 
         let surface_caps = surface.get_capabilities(&adapter);
         // Shader code in this tutorial assumes an sRGB surface texture. Using a different
@@ -146,6 +151,7 @@ impl State {
             view_formats: vec![],
         };
         surface.configure(&device, &config);
+
         let shader = device.create_shader_module(wgpu::ShaderModuleDescriptor {
             label: Some("Shader"),
             source: wgpu::ShaderSource::Wgsl(include_str!("shader.wgsl").into()),
@@ -266,7 +272,6 @@ impl State {
             render_pass.draw(0..3, 0..1);
         }
 
-        
         // submit will accept anything that implements IntoIter
         self.queue.submit(std::iter::once(encoder.finish()));
         output.present();
