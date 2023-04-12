@@ -1,3 +1,4 @@
+#[allow(unused_imports)]
 use rand::prelude::*;
 #[cfg(target_arch = "wasm32")]
 use wasm_bindgen::prelude::*;
@@ -232,7 +233,7 @@ impl State {
         }
     }
 
-    fn input(&mut self, event: &WindowEvent) -> bool {
+    fn input(&mut self, _event: &WindowEvent) -> bool {
         false
     }
 
@@ -268,7 +269,7 @@ impl State {
                 })],
                 depth_stencil_attachment: None,
             });
-            render_pass.set_pipeline(&self.render_pipeline); // 2.
+            render_pass.set_pipeline(  &self.render_pipeline); // 2.
             render_pass.draw(0..3, 0..1);
         }
 
